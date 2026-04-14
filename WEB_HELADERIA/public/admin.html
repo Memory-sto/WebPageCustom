@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin | El Torero Helados</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="admin-layout" id="admin-layout" style="display:none;">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo.png" alt="El Torero" class="sidebar-logo">
+                <span class="sidebar-brand">El Torero</span>
+            </div>
+            <div class="sidebar-section-label">PRINCIPAL</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-panel="dashboard"><span class="si">📊</span>Dashboard</a>
+                <a href="#" class="sidebar-link" data-panel="helados"><span class="si">🍦</span>Helados</a>
+                <a href="#" class="sidebar-link" data-panel="promociones"><span class="si">🎉</span>Promociones</a>
+                <a href="#" class="sidebar-link" data-panel="ubicaciones"><span class="sl-icon">📍</span> Sucursales</a>
+                <a href="#" class="sidebar-link" data-panel="usuarios"><span class="sl-icon">👥</span> Usuarios</a>
+            </nav>
+            <div class="sidebar-section-label">OPERACIONES</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link" data-panel="compras"><span class="si">🛒</span>Ventas</a>
+                <a href="#" class="sidebar-link" data-panel="reservas"><span class="si">📅</span>Reservas</a>
+            </nav>
+            <div class="sidebar-section-label">SISTEMA</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link" data-panel="config"><span class="si">⚙️</span>Configuración</a>
+                <a href="#" class="sidebar-link" data-panel="seguridad"><span class="si">🔒</span>Seguridad</a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/" class="sidebar-link sf-link">🌐 Ver Sitio Web</a>
+                <button id="btn-logout" class="sidebar-link sf-link logout-btn">🚪 Cerrar Sesión</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="ah-left">
+                    <button class="sidebar-toggle" id="sidebar-toggle">☰</button>
+                    <h2 id="panel-title">Dashboard</h2>
+                </div>
+                <div class="ah-right">
+                    <span class="ah-live-dot"></span>
+                    <span class="ah-live-text">En vivo</span>
+                    <div class="ah-avatar" id="admin-user">A</div>
+                </div>
+            </header>
+
+            <!-- DASHBOARD -->
+            <div class="panel active" id="panel-dashboard">
+                <div class="stats-grid" id="stats-grid"></div>
+                <div class="quick-actions">
+                    <h3 class="qa-title">Acciones Rápidas</h3>
+                    <div class="qa-grid">
+                        <button class="qa-btn" onclick="document.querySelector('[data-panel=helados]').click();setTimeout(()=>document.getElementById('btn-add-helado').click(),100)">🍦 Nuevo Helado</button>
+                        <button class="qa-btn" onclick="document.querySelector('[data-panel=promociones]').click();setTimeout(()=>document.getElementById('btn-add-promo').click(),100)">🎉 Nueva Promo</button>
+                        <button class="qa-btn" onclick="document.querySelector('[data-panel=compras]').click();setTimeout(()=>document.getElementById('btn-add-compra').click(),100)">🛒 Registrar Venta</button>
+                        <button class="qa-btn" onclick="document.querySelector('[data-panel=reservas]').click();setTimeout(()=>document.getElementById('btn-add-reserva').click(),100)">📅 Nueva Reserva</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HELADOS -->
+            <div class="panel" id="panel-helados">
+                <div class="panel-toolbar">
+                    <div class="pt-left"><h3>🍦 Gestión de Helados</h3><span class="pt-count" id="helados-count">0 items</span></div>
+                    <button class="btn-primary" id="btn-add-helado"><span class="btn-icon">+</span>Nuevo Helado</button>
+                </div>
+                <div class="cards-grid" id="helados-cards"></div>
+            </div>
+
+            <!-- PROMOCIONES -->
+            <div class="panel" id="panel-promociones">
+                <div class="panel-toolbar">
+                    <div class="pt-left"><h3>🎉 Gestión de Promociones</h3><span class="pt-count" id="promos-count">0 items</span></div>
+                    <button class="btn-primary" id="btn-add-promo"><span class="btn-icon">+</span>Nueva Promoción</button>
+                </div>
+                <div class="cards-grid" id="promos-cards"></div>
+            </div>
+
+            <!-- UBICACIONES -->
+            <div class="panel" id="panel-ubicaciones">
+                <div class="panel-toolbar">
+                    <div class="pt-left"><h3>📍 Gestión de Ubicaciones</h3><span class="pt-count" id="ubis-count">0 items</span></div>
+                    <button class="btn-primary" id="btn-add-ubi"><span class="btn-icon">+</span>Nueva Ubicación</button>
+                </div>
+                <div class="cards-grid" id="ubis-cards"></div>
+            </div>
+
+            <!-- PANEL: USUARIOS -->
+            <div id="panel-usuarios" class="panel">
+                <div class="panel-header">
+                    <h2>Gestión de Cuentas</h2>
+                    <button class="btn btn-primary" id="btn-add-user">+ Nuevo Perfil</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="table-usuarios">
+                        <thead><tr><th>ID</th><th>Nivel Seg.</th><th>Usuario</th><th>Nombre</th><th>Acciones</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- COMPRAS -->
+            <div class="panel" id="panel-compras">
+                <div class="panel-toolbar">
+                    <div class="pt-left"><h3>🛒 Registro de Ventas</h3><span class="pt-count" id="compras-count">0 ventas</span></div>
+                    <button class="btn-primary" id="btn-add-compra"><span class="btn-icon">+</span>Registrar Venta</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table" id="table-compras">
+                        <thead><tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Items</th><th>Total</th><th>Método</th><th>Acciones</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- RESERVAS -->
+            <div class="panel" id="panel-reservas">
+                <div class="panel-toolbar">
+                    <div class="pt-left"><h3>📅 Gestión de Reservas</h3><span class="pt-count" id="reservas-count">0 reservas</span></div>
+                    <button class="btn-primary" id="btn-add-reserva"><span class="btn-icon">+</span>Nueva Reserva</button>
+                </div>
+                <div class="table-wrap">
+                    <table class="admin-table" id="table-reservas">
+                        <thead><tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Teléfono</th><th>Tipo</th><th>Detalles</th><th>Estado</th><th>Acciones</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- CONFIG -->
+            <div class="panel" id="panel-config">
+                <div class="config-layout">
+                    <div class="config-card">
+                        <h3>📱 Redes Sociales</h3>
+                        <form id="config-social">
+                            <div class="fg"><label>WhatsApp</label><input name="whatsapp" id="cfg-whatsapp" placeholder="ej. 73434220"></div>
+                            <div class="fg"><label>Instagram</label><input name="instagram" id="cfg-instagram" placeholder="ej. El_Torero"></div>
+                            <div class="fg"><label>Facebook</label><input name="facebook" id="cfg-facebook" placeholder="ej. El_Torero32"></div>
+                            <div class="fg"><label>TikTok</label><input name="tiktok" id="cfg-tiktok" placeholder="ej. @eltorerohelados"></div>
+                            <button type="submit" class="btn-primary btn-full">Guardar Redes Sociales</button>
+                        </form>
+                    </div>
+                    <div class="config-card">
+                        <h3>🏪 Información del Negocio</h3>
+                        <form id="config-negocio">
+                            <div class="fg"><label>Nombre del Negocio</label><input name="nombre_negocio" id="cfg-nombre" placeholder="El Torero Helados"></div>
+                            <div class="fg"><label>Slogan</label><input name="slogan" id="cfg-slogan"></div>
+                            <div class="fg"><label>Email de Contacto</label><input name="email" id="cfg-email" type="email" placeholder="info@eltorerohelados.com"></div>
+                            <div class="fg"><label>Teléfono General</label><input name="telefono" id="cfg-telefono" placeholder="+591 3 333-4444"></div>
+                            <div class="fg"><label>Dirección Principal</label><input name="direccion" id="cfg-direccion"></div>
+                            <button type="submit" class="btn-primary btn-full">Guardar Información</button>
+                        </form>
+                    </div>
+                    <div class="config-card">
+                        <h3>🕐 Horarios</h3>
+                        <form id="config-horarios">
+                            <div class="fg"><label>Lunes a Viernes</label><input name="horario_lv" id="cfg-horario-lv" placeholder="10:00 - 22:00"></div>
+                            <div class="fg"><label>Sábados</label><input name="horario_sab" id="cfg-horario-sab" placeholder="10:00 - 23:00"></div>
+                            <div class="fg"><label>Domingos</label><input name="horario_dom" id="cfg-horario-dom" placeholder="11:00 - 21:00"></div>
+                            <button type="submit" class="btn-primary btn-full">Guardar Horarios</button>
+                        </form>
+                    </div>
+                    <div class="config-card">
+                        <h3>📦 Delivery</h3>
+                        <form id="config-delivery">
+                            <div class="fg"><label>¿Delivery activo?</label><select name="delivery_activo" id="cfg-delivery"><option value="si">Sí</option><option value="no">No</option></select></div>
+                            <div class="fg"><label>Costo de Delivery (Bs.)</label><input name="delivery_costo" id="cfg-delivery-costo" type="number" placeholder="10"></div>
+                            <div class="fg"><label>Pedido Mínimo (Bs.)</label><input name="delivery_minimo" id="cfg-delivery-min" type="number" placeholder="30"></div>
+                            <div class="fg"><label>Zona de Cobertura</label><input name="delivery_zona" id="cfg-delivery-zona" placeholder="Dentro del 4to anillo"></div>
+                            <button type="submit" class="btn-primary btn-full">Guardar Delivery</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEGURIDAD -->
+            <div class="panel" id="panel-seguridad">
+                <div class="config-layout">
+                    <div class="config-card">
+                        <h3>🔒 Cambiar Contraseña</h3>
+                        <form id="form-password">
+                            <div class="fg"><label>Contraseña Actual</label><input name="current" type="password" required></div>
+                            <div class="fg"><label>Nueva Contraseña</label><input name="newpass" type="password" required minlength="6"></div>
+                            <div class="fg"><label>Confirmar Contraseña</label><input name="confirm" type="password" required minlength="6"></div>
+                            <button type="submit" class="btn-primary btn-full">Cambiar Contraseña</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div class="admin-modal-overlay" id="admin-modal">
+        <div class="admin-modal">
+            <div class="admin-modal-header">
+                <h3 id="admin-modal-title">Nuevo</h3>
+                <button class="modal-x" id="admin-modal-close">&times;</button>
+            </div>
+            <form id="admin-modal-form" class="admin-modal-form">
+                <div id="admin-modal-body"></div>
+                <div class="admin-modal-footer">
+                    <button type="button" class="btn-secondary" id="admin-modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn-primary"><span class="btn-icon">✓</span>Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Login redirect -->
+    <div class="admin-login-redirect" id="login-redirect">
+        <div class="login-redirect-card">
+            <img src="img/logo.png" alt="El Torero" style="height:80px; margin: 0 auto 20px;">
+            <h2>Acceso Denegado</h2>
+            <p>Debe iniciar sesión como administrador.</p>
+            <a href="/" class="btn-primary">Ir al Sitio</a>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

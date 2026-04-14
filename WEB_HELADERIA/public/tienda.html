@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda | El Torero Helados Premium</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Navegación Glassmorphism -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">El Torero</div>
+        
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#hero" class="nav-link active" data-section="hero">Inicio</a></li>
+            <li><a href="#menu" class="nav-link" data-section="menu">Sabores</a></li>
+            <li><a href="#promos" class="nav-link" data-section="promos">VIP</a></li>
+            <li><a href="#reservas" class="nav-link" data-section="reservas">Reservas</a></li>
+            <li><a href="#" class="nav-link" id="cart-toggle">🛒 Carrito (<span id="cart-count">0</span>)</a></li>
+        </ul>
+        
+        <div class="nav-actions">
+            <span id="user-name-display" style="display:none; color:#fff; margin-right:15px; font-weight:bold;"></span>
+            <button class="btn-glow" id="btn-central">Atrás a Central</button>
+        </div>
+        
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <!-- Modal Carrito -->
+    <div id="cart-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2>🛒 Tu Pedido Web</h2>
+            <div id="cart-items" style="max-height: 400px; overflow-y: auto; margin: 20px 0;"></div>
+            <hr style="border: 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; margin-bottom: 20px;">
+                <span>Total:</span>
+                <span id="cart-total" style="color: var(--primary-glow);">Bs. 0.00</span>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" id="cart-close" style="flex:1;">Cerrar</button>
+                <button class="btn btn-primary" id="btn-checkout" style="flex:2; background: var(--primary-glow); border: none; color: #000; font-weight: bold;">Procesar Pedido</button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero section-reveal">
+            <div class="hero-content">
+                <h1 class="hero-title">El Arte Tradicional,<br><span class="text-gradient">Sabor Inolvidable</span></h1>
+                <p class="hero-subtitle">Helados artesanales con recetas exclusivas para paladares exigentes.</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn btn-primary">Ver Catálogo</a>
+                    <a href="#reservas" class="btn btn-outline">Reservar Salón</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="menu-section section-reveal">
+            <div class="section-header">
+                <h2>Cápsula de Sabores</h2>
+                <div class="divider"></div>
+                <p>Nuestra selección de helados y postres artesanales</p>
+            </div>
+            
+            <div class="menu-grid" id="menu-grid">
+                <!-- Fetch desde DB -->
+            </div>
+        </section>
+
+        <!-- Ofertas Section -->
+        <section id="promos" class="promos-section section-reveal">
+            <div class="section-header">
+                <h2>Vip & Promociones</h2>
+                <div class="divider"></div>
+                <p>Ofertas exclusivas por tiempo limitado</p>
+            </div>
+
+            <div class="promos-grid" id="promos-grid">
+                <!-- Fetch desde DB -->
+            </div>
+        </section>
+
+        <!-- Reservas Section -->
+        <section id="reservas" class="reservas-section section-reveal">
+            <div class="glass-form-container">
+                <div class="section-header">
+                    <h2>Reserva un Momento Inolvidable</h2>
+                    <p style="text-align:center; color: var(--text-muted); margin-bottom:30px;">Cumpleaños, reuniones o disfrutar con amigos.</p>
+                </div>
+                
+                <!-- Simple fetch integration -->
+                <form id="form-reserva" class="glass-form" onsubmit="event.preventDefault(); const btn=this.querySelector('button'); btn.textContent='Enviando...'; const fd=new FormData(this); fetch('/api/reservas', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(Object.fromEntries(fd.entries()))}).then(r=>{if(r.ok){alert('¡Reserva enviada!'); this.reset();}else{alert('Error al reservar');} btn.textContent='Solicitar Reserva VIP';})">
+                    <div class="form-row">
+                        <div class="form-group"><label>Nombre</label><input type="text" name="cliente" required></div>
+                        <div class="form-group"><label>Teléfono</label><input type="text" name="telefono" required></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Fecha y Hora</label><input type="datetime-local" name="fecha_reserva" required></div>
+                        <div class="form-group"><label>Motivo</label>
+                            <select name="tipo">
+                                <option value="cumpleaños">🎂 Cumpleaños</option>
+                                <option value="evento">🎉 Evento</option>
+                                <option value="familiar">💝 Reunión Familiar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Detalles Especiales</label>
+                        <textarea name="detalles" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">Solicitar Reserva VIP</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Ubicaciones -->
+        <section id="ubicaciones" class="locations-section section-reveal">
+            <div class="section-header">
+                <h2>Nuestras Sedes</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="locations-grid" id="locations-grid">
+                <!-- Fetch desde DB -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="glass-footer section-reveal">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>El Torero Helados</h3>
+                <p>Tradición boliviana desde la granja hasta tu paladar.</p>
+            </div>
+            <div class="footer-social">
+                <a href="#" id="social-whatsapp" target="_blank">📱 WhatsApp</a>
+                <a href="#" id="social-facebook" target="_blank">📘 Facebook</a>
+                <a href="#" id="social-instagram" target="_blank">📸 Instagram</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 El Torero Helados. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Botón Volver Arriba -->
+    <div id="back-to-top" class="back-to-top">↑</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
